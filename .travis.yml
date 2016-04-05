@@ -14,7 +14,7 @@ install:
 
 script: 
   - cd tests
-  - phpunit --verbose --colors --stderr tests
+  - phpunit --verbose --colors --stderr unitTests
   - php test.php
 
 # run tests on the following versions
@@ -22,7 +22,7 @@ php:
   - 5.6
   - 5.5
   - 5.4
-  - hhvm
+  - 7.0
   
 matrix:
   fast_finish: false
