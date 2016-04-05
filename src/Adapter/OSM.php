@@ -512,11 +512,12 @@ class OSM implements GeoAdapter
 		}, E_WARNING);
 
 		try {
-			return file_get_contents(self::OSM_API_URL . "map?bbox={$left},{$bottom},{$right},{$top}");
-		} catch (\Exception $e) {
-			throw new \Exception("Failed to download from OSM. " . $e->getMessage());
-		} finally {
+			$osmFile = file_get_contents(self::OSM_API_URL . "map?bbox={$left},{$bottom},{$right},{$top}");
 			restore_error_handler();
+			return $osmFile;
+		} catch (\Exception $e) {
+			restore_error_handler();
+			throw new \Exception("Failed to download from OSM. " . $e->getMessage());
 		}
 	}
 }
