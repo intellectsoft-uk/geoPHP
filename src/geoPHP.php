@@ -70,6 +70,14 @@ class geoPHP {
         return self::$geometryList;
     }
 
+    public static function addAdapter($type, $adapter) {
+        self::$adapterMap[$type] = $adapter;
+    }
+
+    public static function addGeometry($type, $geometry) {
+        self::$geometryList[$type] = $geometry;
+    }
+
     // geoPHP::load($data, $type, $other_args);
     // if $data is an array, all passed in values will be combined into a single geometry
     static function load() {
@@ -104,7 +112,9 @@ class geoPHP {
         if (!array_key_exists($type, self::$adapterMap)) {
             throw new \Exception('geoPHP could not find an adapter of type ' . htmlentities($type));
         }
-        $processor_type = self::CLASS_NAMESPACE . 'Adapter\\' . self::$adapterMap[$type];
+        if (!class_exists(self::$adapterMap[$type])) {
+            $processor_type = self::CLASS_NAMESPACE . 'Adapter\\' . self::$adapterMap[$type];
+        }
 
         $processor = new $processor_type();
 
